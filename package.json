@@ -1,15 +1,20 @@
 {
   "name": "qwitter",
   "version": "0.0.1",
-  "description": "",
+  "description": "Twitter Clone App",
   "productName": "Qwitter",
   "author": "Marvin Espira <espiramarvin@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "quasar dev",
     "build": "quasar build",
+    "icons": "icongenie generate -i twitter.png --skip-trim --theme-color 1976D2",
+    "pwa-icons": "icongenie generate -m pwa -i AppIcon.png --skip-trim --theme-color 1976D2",
     "add-pwa": "quasar mode add pwa",
     "build-pwa": "quasar build -m pwa",
+    "build-electron": "quasar build -m electron",
+    "build-android": "quasar build -m android",
+    "build-android-ide": "quasar build -m android --ide",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
@@ -31,7 +36,8 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "eslint-plugin-vue": "^6.1.2"
+    "eslint-plugin-vue": "^6.1.2",
+    "workbox-webpack-plugin": "^5.0.0"
   },
   "browserslist": [
     "last 10 Chrome versions",
