@@ -5,13 +5,11 @@
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="left = !left" />
 
-        <q-toolbar-title
-          class="text-weight-bold"
-        >
+        <q-toolbar-title class="text-weight-bold">
           <span class="gt-sm">{{ $route.name }}</span>
           <q-icon
-            class="q-pa-md header-icon"
-            name="fas fa-dove lt-md"
+            class="header-icon q-pa-md lt-md"
+            name="fas fa-dove"
             size="sm"
             color="primary"
           />
@@ -21,23 +19,24 @@
     </q-header>
 
     <q-drawer
-      :width="283"
-      show-if-above
       v-model="left"
       side="left"
+      :width="283"
       bordered
+      show-if-above
     >
       <q-icon
+        class="q-pa-md"
         name="fas fa-dove"
         size="lg"
         color="primary"
-        class="q-pa-md"
       />
+
       <q-list>
         <q-item
           to="/"
-          clickable
           v-ripple
+          clickable
           exact
         >
           <q-item-section avatar>
@@ -46,11 +45,11 @@
 
           <q-item-section class="text-h6 text-weight-bold">Home</q-item-section>
         </q-item>
-
         <q-item
           to="/about"
-          clickable
           v-ripple
+          clickable
+          exact
         >
           <q-item-section avatar>
             <q-icon name="help" size="md" />
@@ -59,12 +58,12 @@
           <q-item-section class="text-h6 text-weight-bold">About</q-item-section>
         </q-item>
       </q-list>
+
     </q-drawer>
 
-    <q-drawer
-      show-if-above v-model="right" side="right" bordered>
+    <q-drawer show-if-above v-model="right" side="right" bordered>
       <q-input
-        placeholder="Search..."
+        placeholder="Search Qwitter"
         class="q-ma-md"
         outlined
         rounded
@@ -76,12 +75,12 @@
       </q-input>
 
       <q-list
-        padding
         separator
+        padding
       >
         <q-item class="q-pa-md">
           <q-item-section>
-            <q-item-label overline class="text-grey">EDUCATION</q-item-label>
+            <q-item-label overline class="text-grey">Education</q-item-label>
             <q-item-label class="text-weight-bold">Something amazing happened!</q-item-label>
             <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
           </q-item-section>
@@ -90,10 +89,9 @@
             <q-item-label caption>5 min ago</q-item-label>
           </q-item-section>
         </q-item>
-
         <q-item class="q-pa-md">
           <q-item-section>
-            <q-item-label overline class="text-grey">FOOTBALL</q-item-label>
+            <q-item-label overline class="text-grey">Education</q-item-label>
             <q-item-label class="text-weight-bold">Something amazing happened!</q-item-label>
             <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
           </q-item-section>
@@ -102,10 +100,9 @@
             <q-item-label caption>5 min ago</q-item-label>
           </q-item-section>
         </q-item>
-
         <q-item class="q-pa-md">
           <q-item-section>
-            <q-item-label overline class="text-grey">POLITICS</q-item-label>
+            <q-item-label overline class="text-grey">Education</q-item-label>
             <q-item-label class="text-weight-bold">Something amazing happened!</q-item-label>
             <q-item-label caption>Secondary line text. Lorem ipsum dolor sit amet, consectetur adipiscit elit.</q-item-label>
           </q-item-section>
@@ -115,7 +112,6 @@
           </q-item-section>
         </q-item>
       </q-list>
-
     </q-drawer>
 
     <q-page-container>

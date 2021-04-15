@@ -73,9 +73,10 @@
             <div class="qweeet-icons row justify-between q-mt-sm">
               <q-btn icon="far fa-comment" size="sm" color="grey" flat round/>
               <q-btn
-                :icon="qweet.retweet ? 'fas fa-retweet' : 'fa fa-retweet'"
-                :color="qweet.retweet ? 'green' : 'grey'"
-                :label="qweet.retweet ? 1 : ''"
+                @click="toggleRetweeted(qweet)"
+                :icon="qweet.retweeted ? 'fas fa-retweet' : 'fa fa-retweet'"
+                :color="qweet.retweeted ? 'green' : 'grey'"
+                :label="qweet.retweeted ? 1 : ''"
                 size="sm"
                 flat round
               />
@@ -99,35 +100,55 @@
 
       </q-list>
     </q-scroll-area>
+    <q-dialog v-model="confirm" transition-show="fadeIn" transition-hide="fadeOut">
+      <q-card class="confirm-card">
+        <q-card-section class="row items-center">
+          <div class="text-h6 text-weight-bold q-ml-xl q-py-sm">Delete Tweet?</div>
+          <span class="q-ml-sm q-px-md">
+            This can’t be undone and it will be removed from your profile,
+            the timeline of any accounts that follow you, and from Twitter search results.
+          </span>
+        </q-card-section>
+
+        <q-card-actions class="row justify-evenly q-mb-md">
+          <q-btn unelevated rounded label="Cancel" padding="sm xl" no-caps color="grey-3" class="text-black text-weight-bold" v-close-popup />
+          <q-btn unelevated rounded label="Delete" padding="sm xl" no-caps color="pink" @click="proceedDelete" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
 <script>
 import { formatDistance } from 'date-fns'
 import db from '../boot/firebase'
+import commonMixins from '../mixins/commonMixins'
 export default {
   name: 'PageHome',
+  mixins: [commonMixins],
   data () {
     return {
       newQweetContent: '',
       avatar: 'https://cdn.quasar.dev/img/avatar4.jpg',
+      confirm: false,
+      qweetToBeDeleted: {},
       qweets: [
-        {
-          id: 1,
-          content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, asperiores autem cum dolor doloremque eos error exercitationem facere iure modi nulla, praesentium provident qui ratione voluptate. Dolores error excepturi vel!\n' +
-            '\n' +
-            '            Lorem ipsum dolor sit amet, consectetur adipisicing elit',
-          date: 1618459322555,
-          retweet: true,
-          liked: false
-        },
-        {
-          id: 2,
-          content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi aut autem consequatur doloremque doloribus ducimus, eaque eum explicabo fugiat in ipsum iste nemo provident quo quos reprehenderit saepe voluptates.',
-          date: 1618459352896,
-          retweet: false,
-          liked: true
-        }
+        // {
+        //   id: 1,
+        //   content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, asperiores autem cum dolor doloremque eos error exercitationem facere iure modi nulla, praesentium provident qui ratione voluptate. Dolores error excepturi vel!\n' +
+        //     '\n' +
+        //     '            Lorem ipsum dolor sit amet, consectetur adipisicing elit',
+        //   date: 1618459322555,
+        //   retweeted: true,
+        //   liked: false
+        // },
+        // {
+        //   id: 2,
+        //   content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi aut autem consequatur doloremque doloribus ducimus, eaque eum explicabo fugiat in ipsum iste nemo provident quo quos reprehenderit saepe voluptates.',
+        //   date: 1618459352896,
+        //   retweeted: false,
+        //   liked: true
+        // }
       ]
     }
   },
@@ -141,25 +162,36 @@ export default {
       const newQweet = {
         content: this.newQweetContent,
         date: Date.now(),
-        retweet: false,
+        retweeted: false,
         liked: false
       }
       // this.qweets.unshift(newQweet)
       // Add a new document with a generated id.
       db.collection('qweets').add(newQweet)
-        .then((docRef) => {
+        .then(docRef => {
           console.log('Document written with ID: ', docRef.id)
         })
-        .catch((error) => {
-          console.error('Error adding document: ', error)
+        // eslint-disable-next-line handle-callback-err
+        .catch(error => {
+          // console.error('Error adding document: ', error)
         })
       this.newQweetContent = ''
+      this.showNotifyAddTweet('Your Tweet was sent.')
     },
     deleteQweet (qweet) {
+      this.confirm = true
+      this.qweetToBeDeleted = qweet
+    },
+    proceedDelete () {
+      this.confirm = false
+      const qweet = this.qweetToBeDeleted
       db.collection('qweets').doc(qweet.id).delete().then(() => {
-        console.log('Document successfully deleted!')
-      }).catch((error) => {
-        console.error('Error removing document: ', error)
+        // console.log('Document successfully deleted!')
+        this.showNotifyDeleteTweet('Your Tweet was deleted')
+        // eslint-disable-next-line handle-callback-err
+        // eslint-disable-next-line handle-callback-err
+      }).catch(error => {
+        // console.error('Error removing document: ', error)
       })
     },
     toggleLiked (qweet) {
@@ -169,36 +201,49 @@ export default {
         .then(() => {
           console.log('Document successfully updated!')
         })
-        .catch((error) => {
+        // eslint-disable-next-line handle-callback-err
+        .catch(error => {
           // The document probably doesn't exist.
-          console.error('Error updating document: ', error)
+          // console.error('Error updating document: ', error)
+        })
+    },
+    toggleRetweeted (qweet) {
+      db.collection('qweets').doc(qweet.id).update({
+        retweeted: !qweet.retweeted
+      })
+        .then(() => {
+          // console.log('doc updated success')
+        })
+        // eslint-disable-next-line handle-callback-err
+        .catch(error => {
+          // console.log('error updating doc', error)
         })
     }
   },
-  // mounted () {
-  //   db.collection('qweets').orderBy('date').onSnapshot((snapshot) => {
-  //     snapshot.docChanges().forEach((change) => {
-  //       const qweetChange = change.doc.data()
-  //       qweetChange.id = change.doc.id
-  //       if (change.type === 'added') {
-  //         console.log('New qweet: ', qweetChange)
-  //         this.qweets.unshift(qweetChange)
-  //       }
-  //       if (change.type === 'modified') {
-  //         const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
-  //         // Object.assign copies/assigns properties from one or more source Objects to a target Object
-  //         // In this case, we assign our local data, the Object (this.qweets) to qweetChange object to reflect changes to the UI (this.qweets) at the position Index
-  //         Object.assign(this.qweets[index], qweetChange)
-  //         console.log('Modified qweet: ', qweetChange)
-  //       }
-  //       if (change.type === 'removed') {
-  //         console.log('Removed qweet: ', qweetChange)
-  //         const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
-  //         this.qweets.splice(index, 1)
-  //       }
-  //     })
-  //   })
-  // },
+  mounted () {
+    db.collection('qweets').orderBy('date').onSnapshot((snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        const qweetChange = change.doc.data()
+        qweetChange.id = change.doc.id
+        if (change.type === 'added') {
+          console.log('New qweet: ', qweetChange)
+          this.qweets.unshift(qweetChange)
+        }
+        if (change.type === 'modified') {
+          const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
+          // Object.assign copies/assigns properties from one or more source Objects to a target Object
+          // In this case, we assign our local data, the Object (this.qweets) to qweetChange object to reflect changes to the UI (this.qweets) at the position Index
+          Object.assign(this.qweets[index], qweetChange)
+          console.log('Modified qweet: ', qweetChange)
+        }
+        if (change.type === 'removed') {
+          console.log('Removed qweet: ', qweetChange)
+          const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
+          this.qweets.splice(index, 1)
+        }
+      })
+    })
+  },
   computed: {
     likedCount () {
       // return this.qweets.map(qweet => {
@@ -208,7 +253,6 @@ export default {
       return this.qweets.filter(qweet => {
         // console.log('qweet', qweet)
         qweet.lable = qweet.liked === true ? 'liked' : 'no'
-        // console.log('like count', qweet)
         return qweet
       })
     }
@@ -231,4 +275,7 @@ export default {
     white-space: pre-line
   .qweeet-icons
     margin-left: -5px
+  .confirm-card
+    width: 330px !important
+    border-radius: 10% !important
 </style>

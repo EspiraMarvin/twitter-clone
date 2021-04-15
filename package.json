@@ -8,11 +8,14 @@
   "scripts": {
     "dev": "quasar dev",
     "build": "quasar build",
+    "add-pwa": "quasar mode add pwa",
+    "build-pwa": "quasar build -m pwa",
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "@vueuse/core": "^4.8.1",
     "core-js": "^3.6.5",
     "date-fns": "^2.21.0",
     "firebase": "^8.4.1",
