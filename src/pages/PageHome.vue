@@ -59,13 +59,18 @@
 
           <q-item-section>
             <q-item-label class="text-subtitle1">
-              <strong>
-                Marvin Espira
-              </strong>
-              <span class="text-grey-7">
+              <div class="row justify-between">
+                <div>
+                  <strong>
+                    Marvin Espira
+                  </strong>
+                  <span class="text-grey-7">
                 @marvin_espira
                 <br class="lt-sm">&bull; {{ qweet.date | relativeDate }}
-              </span>
+                  </span>
+                </div>
+                <q-btn class="float-right" size="12px" flat dense color="grey" round icon="more_horiz" />
+              </div>
             </q-item-label>
             <q-item-label class="qweet-content text-body2">
               {{ qweet.content }}
@@ -81,11 +86,13 @@
                 flat round
               />
               <q-btn
+                v-ripple
                 @click="toggleLiked(qweet)"
                 :icon="qweet.liked ? 'fas fa-heart' : 'far fa-heart'"
                 :color="qweet.liked ? 'pink' : 'grey'"
                 :label="qweet.liked ? 1 : ''"
                 size="sm"
+                style="max-width: 35px"
                 flat
                 round
               />
@@ -165,11 +172,10 @@ export default {
         retweeted: false,
         liked: false
       }
-      // this.qweets.unshift(newQweet)
       // Add a new document with a generated id.
       db.collection('qweets').add(newQweet)
         .then(docRef => {
-          console.log('Document written with ID: ', docRef.id)
+          // console.log('Document written with ID: ', docRef.id)
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -189,7 +195,6 @@ export default {
         // console.log('Document successfully deleted!')
         this.showNotifyDeleteTweet('Your Tweet was deleted')
         // eslint-disable-next-line handle-callback-err
-        // eslint-disable-next-line handle-callback-err
       }).catch(error => {
         // console.error('Error removing document: ', error)
       })
@@ -199,7 +204,7 @@ export default {
         liked: !qweet.liked
       })
         .then(() => {
-          console.log('Document successfully updated!')
+          // console.log('Document successfully updated!')
         })
         // eslint-disable-next-line handle-callback-err
         .catch(error => {
@@ -226,18 +231,17 @@ export default {
         const qweetChange = change.doc.data()
         qweetChange.id = change.doc.id
         if (change.type === 'added') {
-          console.log('New qweet: ', qweetChange)
           this.qweets.unshift(qweetChange)
         }
         if (change.type === 'modified') {
           const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
           // Object.assign copies/assigns properties from one or more source Objects to a target Object
+          // Object.assign copies/assigns properties from one or more source Objects to a target Object
           // In this case, we assign our local data, the Object (this.qweets) to qweetChange object to reflect changes to the UI (this.qweets) at the position Index
           Object.assign(this.qweets[index], qweetChange)
-          console.log('Modified qweet: ', qweetChange)
         }
         if (change.type === 'removed') {
-          console.log('Removed qweet: ', qweetChange)
+          // console.log('Removed qweet: ', qweetChange)
           const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
           this.qweets.splice(index, 1)
         }
@@ -246,10 +250,6 @@ export default {
   },
   computed: {
     likedCount () {
-      // return this.qweets.map(qweet => {
-      //   qweet = this.qweet.liked === true ? qweet.liked.length : ''
-      //   return qweet
-      // })
       return this.qweets.filter(qweet => {
         // console.log('qweet', qweet)
         qweet.lable = qweet.liked === true ? 'liked' : 'no'
