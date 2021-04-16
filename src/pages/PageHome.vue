@@ -173,7 +173,10 @@ export default {
         liked: false
       }
       // regex to check if newQweet contains only white spaces
-      if (!newQweet.content.replace(/\s/g, '').length) return
+      if (!newQweet.content.replace(/\s/g, '').length) {
+        this.newQweetContent = null
+        return
+      }
       // Add a new document with a generated id.
       db.collection('qweets').add(newQweet)
         .then(docRef => {
