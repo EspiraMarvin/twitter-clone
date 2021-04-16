@@ -72,7 +72,7 @@
                 <q-btn class="float-right" size="12px" flat dense color="grey" round icon="more_horiz" />
               </div>
             </q-item-label>
-            <q-item-label class="qweet-content text-body2">
+            <q-item-label class="qweet-content text-body1">
               {{ qweet.content }}
             </q-item-label>
             <div class="qweeet-icons row justify-between q-mt-sm">
