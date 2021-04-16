@@ -4,11 +4,13 @@
       <div class="q-py-lg q-px-md row items-end  q-col-gutter-md">
         <div class="col">
           <q-input
-            bottom-slots
             v-model="newQweetContent"
+            @keydown.space.prevent="newQweetContent.substring(1)"
+            @keydown.enter.prevent="newQweetContent.substring(1)"
             class="new-qweet"
             placeholder="What's happening?"
             maxlength="280"
+            bottom-slots
             counter
             autogrow
           >
@@ -23,7 +25,7 @@
         <div class="col col-shrink">
           <q-btn
             @click="addNewQweet"
-            :disable="!newQweetContent"
+            :disable="newQweetContent.length  ? false : true"
             class="q-mb-lg"
             unelevated
             rounded

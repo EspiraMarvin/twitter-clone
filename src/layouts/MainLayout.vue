@@ -146,11 +146,19 @@
 
 <script>
 export default {
+  created () {
+    this.theme = JSON.parse(localStorage.getItem('theme'))
+  },
   data () {
     return {
       left: false,
       right: false,
       theme: ''
+    }
+  },
+  watch: {
+    theme () {
+      localStorage.setItem('theme', JSON.stringify(this.theme))
     }
   }
 }
