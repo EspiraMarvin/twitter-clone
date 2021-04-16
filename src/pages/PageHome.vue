@@ -135,7 +135,7 @@ export default {
   mixins: [commonMixins],
   data () {
     return {
-      newQweetContent: null,
+      newQweetContent: '',
       avatar: 'https://cdn.quasar.dev/img/avatar4.jpg',
       confirm: false,
       qweetToBeDeleted: {},
@@ -174,7 +174,7 @@ export default {
       }
       // regex to check if newQweet contains only white spaces
       if (!newQweet.content.replace(/\s/g, '').length) {
-        this.newQweetContent = null
+        this.newQweetContent = ''
         return
       }
       // Add a new document with a generated id.
