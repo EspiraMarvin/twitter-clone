@@ -135,7 +135,7 @@ export default {
   mixins: [commonMixins],
   data () {
     return {
-      newQweetContent: '',
+      newQweetContent: null,
       avatar: 'https://cdn.quasar.dev/img/avatar4.jpg',
       confirm: false,
       qweetToBeDeleted: {},
