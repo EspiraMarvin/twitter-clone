@@ -172,7 +172,8 @@ export default {
         retweeted: false,
         liked: false
       }
-      if (!newQweet.length) return
+      // regex to check if newQweet contains only white spaces
+      if (!newQweet.content.replace(/\s/g, '').length) return
       // Add a new document with a generated id.
       db.collection('qweets').add(newQweet)
         .then(docRef => {
