@@ -119,7 +119,7 @@
 
         <q-card-actions class="row justify-evenly q-mb-md">
           <q-btn unelevated rounded label="Cancel" padding="sm xl" no-caps color="grey-3" class="text-black text-weight-bold" v-close-popup />
-          <q-btn unelevated rounded label="Delete" padding="sm xl" no-caps color="pink" @click="proceedDelete" />
+          <q-btn unelevated rounded label="Delete" padding="sm xl" no-caps color="pink" class="text-weight-bold" @click="proceedDelete" />
         </q-card-actions>
       </q-card>
     </q-dialog>

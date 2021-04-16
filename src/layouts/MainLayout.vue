@@ -13,8 +13,18 @@
             size="sm"
             color="primary"
           />
+
         </q-toolbar-title>
 
+        <q-toggle
+          :false-value="this.$q.dark.set(theme)"
+          :true-value="this.$q.dark.set(theme)"
+          v-model="theme"
+          :icon="$q.dark.isActive ? 'nights_stay' : 'wb_sunny'"
+          color="black"
+          class="text-center"
+          size="md"
+        />
       </q-toolbar>
     </q-header>
 
@@ -139,7 +149,8 @@ export default {
   data () {
     return {
       left: false,
-      right: false
+      right: false,
+      theme: ''
     }
   }
 }
