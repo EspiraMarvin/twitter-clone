@@ -5,8 +5,6 @@
         <div class="col">
           <q-input
             v-model="newQweetContent"
-            @keydown.space.prevent="newQweetContent.substring(1)"
-            @keydown.enter.prevent="newQweetContent.substring(1)"
             class="new-qweet"
             placeholder="What's happening?"
             maxlength="280"
@@ -25,7 +23,7 @@
         <div class="col col-shrink">
           <q-btn
             @click="addNewQweet"
-            :disable="newQweetContent.length  ? false : true"
+            :disable="!newQweetContent"
             class="q-mb-lg"
             unelevated
             rounded
@@ -174,6 +172,7 @@ export default {
         retweeted: false,
         liked: false
       }
+      if (!newQweet.length) return
       // Add a new document with a generated id.
       db.collection('qweets').add(newQweet)
         .then(docRef => {
