@@ -76,7 +76,10 @@
               {{ qweet.content }}
             </q-item-label>
             <div class="qweeet-icons row justify-between q-mt-sm">
-              <q-btn icon="far fa-comment" size="sm" color="grey" flat round/>
+              <q-btn
+                @click="clickComment"
+                icon="far fa-comment" size="sm" color="grey" flat round
+              />
               <q-btn
                 @click="toggleRetweeted(qweet)"
                 :icon="qweet.retweeted ? 'fas fa-retweet' : 'fa fa-retweet'"
@@ -228,6 +231,9 @@ export default {
         .catch(error => {
           // console.log('error updating doc', error)
         })
+    },
+    clickComment () {
+
     }
   },
   mounted () {
