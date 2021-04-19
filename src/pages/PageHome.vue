@@ -75,10 +75,10 @@
             <q-item-label class="qweet-content text-body1">
               {{ qweet.content }}
             </q-item-label>
-            <q-item-label class="text-grey-6" v-if="qweet.operatingSys === 'win'">
+            <q-item-label class="text-grey-6" v-if="qweet.operatingSys === 'win' && 'ios'">
               · Twitter for Web
             </q-item-label>
-            <q-item-label class="text-grey-6" v-else>
+            <q-item-label class="text-grey-6" v-if="qweet.operatingSys != 'win'">
               · Twitter for {{ qweet.operatingSys }}
             </q-item-label>
             <div class="qweeet-icons row justify-between q-mt-sm">
