@@ -80,7 +80,7 @@
 <!--                · Twitter Web App-->
 <!--              </div>-->
               <div class="">
-                · Twitter for {{ platformName }} {{ operatingSys }}
+                · Twitter for {{ deviceType[0] }} {{ deviceType[1] }}
               </div>
             </q-item-label>
             <div class="qweeet-icons row justify-between q-mt-sm">
@@ -152,8 +152,6 @@ export default {
       confirm: false,
       qweetToBeDeleted: {},
       deviceType: [],
-      platformName: '',
-      operatingSys: '',
       qweets: [
         // {
         //   id: 1,
@@ -185,7 +183,9 @@ export default {
         content: this.newQweetContent,
         date: Date.now(),
         retweeted: false,
-        liked: false
+        liked: false,
+        platformName: this.deviceType[0],
+        operatingSys: this.deviceType[1]
       }
       // regex to check if newQweet contains only white spaces
       if (!newQweet.content.replace(/\s/g, '').length) {
@@ -272,6 +272,7 @@ export default {
     })
     this.platformName = Platform.is.name
     this.operatingSys = Platform.is.platform
+    this.deviceType.push(this.platformName, this.operatingSys)
     console.log('platform', Platform.is.name, Platform.is.platform)
     // console.log('platform', this.$q.platform.is.desktop)
   },
