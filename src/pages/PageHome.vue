@@ -75,13 +75,11 @@
             <q-item-label class="qweet-content text-body1">
               {{ qweet.content }}
             </q-item-label>
-            <q-item-label class="text-grey-6">
-<!--              <div v-if="$q.platform.is.desktop">-->
-<!--                · Twitter Web App-->
-<!--              </div>-->
-              <div class="">
-                · Twitter for {{ deviceType[0] }} {{ deviceType[1] }}
-              </div>
+            <q-item-label class="text-grey-6" v-if="qweet.operatingSys === 'win'">
+              · Twitter for Web
+            </q-item-label>
+            <q-item-label class="text-grey-6" v-else>
+              · Twitter for {{ qweet.operatingSys }}
             </q-item-label>
             <div class="qweeet-icons row justify-between q-mt-sm">
               <q-btn
@@ -273,9 +271,9 @@ export default {
         }
       })
     })
-    this.platformName = Platform.is.name
-    this.operatingSys = Platform.is.platform
-    this.deviceType.push(this.platformName, this.operatingSys)
+    const platformName = Platform.is.name
+    const operatingSys = Platform.is.platform
+    this.deviceType.push(platformName, operatingSys)
   },
   computed: {
     likedCount () {
