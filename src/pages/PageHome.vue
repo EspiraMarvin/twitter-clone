@@ -75,6 +75,11 @@
             <q-item-label class="qweet-content text-body1">
               {{ qweet.content }}
             </q-item-label>
+            <q-item-label>
+              <div class="$q.platform.is.desktop">
+                Twitter Web App
+              </div>
+            </q-item-label>
             <div class="qweeet-icons row justify-between q-mt-sm">
               <q-btn
                 @click="clickComment"
@@ -131,6 +136,7 @@
 
 <script>
 import { formatDistance } from 'date-fns'
+import { Platform } from 'quasar'
 import db from '../boot/firebase'
 import commonMixins from '../mixins/commonMixins'
 export default {
@@ -142,6 +148,8 @@ export default {
       avatar: 'https://cdn.quasar.dev/img/avatar4.jpg',
       confirm: false,
       qweetToBeDeleted: {},
+      platformName: '',
+      operatingSys: '',
       qweets: [
         // {
         //   id: 1,
@@ -258,6 +266,10 @@ export default {
         }
       })
     })
+    this.platformName = Platform.is.name
+    this.operatingSys = Platform.is.platform
+    console.log('platform', Platform.is.name, Platform.is.platform)
+    // console.log('platform', this.$q.platform.is.desktop)
   },
   computed: {
     likedCount () {
