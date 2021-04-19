@@ -192,6 +192,9 @@ export default {
         this.newQweetContent = ''
         return
       }
+      this.addTweetToFirebase(newQweet)
+    },
+    addTweetToFirebase (newQweet) {
       // Add a new document with a generated id.
       db.collection('qweets').add(newQweet)
         .then(docRef => {
@@ -273,8 +276,6 @@ export default {
     this.platformName = Platform.is.name
     this.operatingSys = Platform.is.platform
     this.deviceType.push(this.platformName, this.operatingSys)
-    console.log('platform', Platform.is.name, Platform.is.platform)
-    // console.log('platform', this.$q.platform.is.desktop)
   },
   computed: {
     likedCount () {
