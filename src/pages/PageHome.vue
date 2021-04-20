@@ -22,7 +22,7 @@
 
         <div class="col col-shrink">
           <q-btn
-            @click="addNewQweet()"
+            @click="addNewQweet"
             ref="addButton"
             :disable="isDisabled"
             class="q-mb-lg"
