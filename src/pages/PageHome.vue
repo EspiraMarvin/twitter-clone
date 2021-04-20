@@ -22,8 +22,9 @@
 
         <div class="col col-shrink">
           <q-btn
-            @click="addNewQweet"
-            :disable="!newQweetContent"
+            @click="addNewQweet()"
+            ref="addButton"
+            :disable="isDisabled"
             class="q-mb-lg"
             unelevated
             rounded
@@ -170,6 +171,10 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.firebaseGetEditDeleteQweets()
+    this.getDeviceTypeName()
+  },
   filters: {
     relativeDate (value) {
       return formatDistance(value, new Date())
@@ -177,6 +182,7 @@ export default {
   },
   methods: {
     addNewQweet () {
+      // eslint-disable-next-line no-unused-vars
       const newQweet = {
         content: this.newQweetContent,
         date: Date.now(),
@@ -184,11 +190,6 @@ export default {
         liked: false,
         platformName: this.deviceType[0],
         operatingSys: this.deviceType[1]
-      }
-      // regex to check if newQweet contains only white spaces
-      if (!newQweet.content.replace(/\s/g, '').length) {
-        this.newQweetContent = ''
-        return
       }
       this.addTweetToFirebase(newQweet)
     },
@@ -247,41 +248,47 @@ export default {
     },
     clickComment () {
 
-    }
-  },
-  mounted () {
-    db.collection('qweets').orderBy('date').onSnapshot((snapshot) => {
-      snapshot.docChanges().forEach((change) => {
-        const qweetChange = change.doc.data()
-        qweetChange.id = change.doc.id
-        if (change.type === 'added') {
-          this.qweets.unshift(qweetChange)
-        }
-        if (change.type === 'modified') {
-          const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
-          // Object.assign copies/assigns properties from one or more source Objects to a target Object
-          // Object.assign copies/assigns properties from one or more source Objects to a target Object
-          // In this case, we assign our local data, the Object (this.qweets) to qweetChange object to reflect changes to the UI (this.qweets) at the position Index
-          Object.assign(this.qweets[index], qweetChange)
-        }
-        if (change.type === 'removed') {
-          // console.log('Removed qweet: ', qweetChange)
-          const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
-          this.qweets.splice(index, 1)
-        }
+    },
+    firebaseGetEditDeleteQweets () {
+      db.collection('qweets').orderBy('date').onSnapshot((snapshot) => {
+        snapshot.docChanges().forEach((change) => {
+          const qweetChange = change.doc.data()
+          qweetChange.id = change.doc.id
+          if (change.type === 'added') {
+            this.qweets.unshift(qweetChange)
+          }
+          if (change.type === 'modified') {
+            const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
+            // Object.assign copies/assigns properties from one or more source Objects to a target Object
+            // Object.assign copies/assigns properties from one or more source Objects to a target Object
+            // In this case, we assign our local data, the Object (this.qweets) to qweetChange object to reflect changes to the UI (this.qweets) at the position Index
+            Object.assign(this.qweets[index], qweetChange)
+          }
+          if (change.type === 'removed') {
+            // console.log('Removed qweet: ', qweetChange)
+            const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
+            this.qweets.splice(index, 1)
+          }
+        })
       })
-    })
-    const platformName = Platform.is.name
-    const operatingSys = Platform.is.platform
-    this.deviceType.push(platformName, operatingSys)
+    },
+    getDeviceTypeName () {
+      const platformName = Platform.is.name
+      const operatingSys = Platform.is.platform
+      this.deviceType.push(platformName, operatingSys)
+    }
   },
   computed: {
     likedCount () {
       return this.qweets.filter(qweet => {
-        // console.log('qweet', qweet)
         qweet.lable = qweet.liked === true ? 'liked' : 'no'
         return qweet
       })
+    },
+    // used computed prop to check if newQweet typed in has only white space if it has only white spaces, disable the qweet button
+    // regex to check if newQweet contains only white spaces - newQweet.replace(/\s/g, '')
+    isDisabled () {
+      return !this.newQweetContent.replace(/\s/g, '').length
     }
   }
 }

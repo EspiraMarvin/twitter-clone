@@ -1,6 +1,13 @@
 const commonMixins = {
 
   methods: {
+    // this first fn has not be used anywhere
+    ignoreWhiteSpaces (newQweet) {
+      // regex to check if newQweet contains only white spaces
+      if (!newQweet.content.replace(/\s/g, '').length) {
+        this.newQweetContent = ''
+      }
+    },
     showNotifyAddTweet (message) {
       this.$q.notify({
         message: message,
