@@ -77,7 +77,7 @@
               {{ qweet.content }}
             </q-item-label>
             <q-item-label class="text-grey-6" v-if="qweet.operatingSys === 'win' && 'ios'">
-              · Twitter for Web
+              · Twitter for web
             </q-item-label>
             <q-item-label class="text-grey-6" v-if="qweet.operatingSys != 'win' && 'ios'">
               · Twitter for {{ qweet.operatingSys }}
