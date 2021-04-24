@@ -160,13 +160,6 @@ export default {
         //   date: 1618459322555,
         //   retweeted: true,
         //   liked: false
-        // },
-        // {
-        //   id: 2,
-        //   content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi aut autem consequatur doloremque doloribus ducimus, eaque eum explicabo fugiat in ipsum iste nemo provident quo quos reprehenderit saepe voluptates.',
-        //   date: 1618459352896,
-        //   retweeted: false,
-        //   liked: true
         // }
       ]
     }
