@@ -167,9 +167,9 @@ export default {
   },
   mounted () {
     this.loading = true
-    // this.firebaseFetchQweets()
-    // this.getDeviceTypeName()
-    // this.loading = false
+    this.firebaseFetchQweets()
+    this.getDeviceTypeName()
+    this.loading = false
   },
   filters: {
     relativeDate (value) {
