@@ -76,7 +76,7 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      port: 8081,
+      port: 8083,
       open: true // opens browser window automatically
     },
 
@@ -101,7 +101,8 @@ module.exports = function (/* ctx */) {
       // Quasar plugins
       plugins: [
         'Dialog',
-        'Notify'
+        'Notify',
+        'LoadingBar'
       ]
     },
 
@@ -125,7 +126,7 @@ module.exports = function (/* ctx */) {
         short_name: 'Qwitter',
         description: '',
         display: 'standalone',
-        orientation: 'portrait',
+        orientation: 'landscape',
         background_color: '#ffffff',
         theme_color: '#027be3',
         icons: [
