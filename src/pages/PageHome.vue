@@ -29,7 +29,7 @@
             unelevated
             rounded
             color="primary"
-            label="Qweet"
+            label="Tweet"
             no-caps
           />
         </div>
@@ -41,7 +41,8 @@
         class="divider"
       />
 
-      <q-list separator>
+      <template v-if="!loading && qweets.length">
+        <q-list separator>
         <transition-group
           appear
           enter-active-class="animated fadeIn slow"
@@ -116,22 +117,17 @@
         </transition-group>
 
       </q-list>
+      </template>
+
+      <template v-else>
+        <div v-for="item in numberOfSkeletons" :key="item.index">
+          <Skeleton />
+        </div>
+      </template>
+
     </q-scroll-area>
     <q-dialog v-model="confirm" transition-show="fadeIn" transition-hide="fadeOut">
-      <q-card class="confirm-card">
-        <q-card-section class="row items-center">
-          <div class="text-h6 text-weight-bold q-ml-xl q-py-sm">Delete Tweet?</div>
-          <span class="q-ml-sm q-px-md">
-            This can’t be undone and it will be removed from your profile,
-            the timeline of any accounts that follow you, and from Twitter search results.
-          </span>
-        </q-card-section>
-
-        <q-card-actions class="row justify-evenly q-mb-md">
-          <q-btn unelevated rounded label="Cancel" padding="sm xl" no-caps color="grey-3" class="text-black text-weight-bold" v-close-popup />
-          <q-btn unelevated rounded label="Delete" padding="sm xl" no-caps color="pink" class="text-weight-bold" @click="proceedDelete" />
-        </q-card-actions>
-      </q-card>
+      <DeletePrompt :proceedDelete="proceedDelete" />
     </q-dialog>
   </q-page>
 </template>
@@ -141,16 +137,21 @@ import { formatDistance } from 'date-fns'
 import { Platform } from 'quasar'
 import db from '../boot/firebase'
 import commonMixins from '../mixins/commonMixins'
+import DeletePrompt from '../components/DeletePrompt'
+import Skeleton from '../components/Skeleton'
 export default {
   name: 'PageHome',
+  components: { Skeleton, DeletePrompt },
   mixins: [commonMixins],
   data () {
     return {
+      loading: false,
       newQweetContent: '',
       avatar: 'https://cdn.quasar.dev/img/avatar4.jpg',
       confirm: false,
       qweetToBeDeleted: {},
       deviceType: [],
+      numberOfSkeletons: 20,
       qweets: [
         // {
         //   id: 1,
@@ -165,8 +166,10 @@ export default {
     }
   },
   mounted () {
-    this.firebaseGetEditDeleteQweets()
+    this.loading = true
+    this.firebaseFetchQweets()
     this.getDeviceTypeName()
+    this.loading = false
   },
   filters: {
     relativeDate (value) {
@@ -242,14 +245,16 @@ export default {
     clickComment () {
 
     },
-    firebaseGetEditDeleteQweets () {
+    firebaseFetchQweets () {
       db.collection('qweets').orderBy('date').onSnapshot((snapshot) => {
         snapshot.docChanges().forEach((change) => {
           const qweetChange = change.doc.data()
           qweetChange.id = change.doc.id
+          // add qweet
           if (change.type === 'added') {
             this.qweets.unshift(qweetChange)
           }
+          // edit qweet
           if (change.type === 'modified') {
             const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
             // Object.assign copies/assigns properties from one or more source Objects to a target Object
@@ -257,6 +262,7 @@ export default {
             // In this case, we assign our local data, the Object (this.qweets) to qweetChange object to reflect changes to the UI (this.qweets) at the position Index
             Object.assign(this.qweets[index], qweetChange)
           }
+          // delete qweet
           if (change.type === 'removed') {
             // console.log('Removed qweet: ', qweetChange)
             const index = this.qweets.findIndex(qweet => qweet.id === qweetChange.id)
@@ -302,7 +308,4 @@ export default {
     white-space: pre-line
   .qweeet-icons
     margin-left: -5px
-  .confirm-card
-    width: 330px !important
-    border-radius: 10% !important
 </style>
