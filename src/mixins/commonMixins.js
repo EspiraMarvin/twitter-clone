@@ -3,19 +3,11 @@ const commonMixins = {
   data () {
     return {
       thumbStyle: {
-        right: '1px',
-        borderRadius: '1px',
-        backgroundColor: 'white',
-        width: '1px',
-        opacity: 0.75
+        backgroundColor: 'white'
       },
 
       barStyle: {
-        right: '1px',
-        borderRadius: '1px',
-        backgroundColor: 'white',
-        width: '1px',
-        opacity: 0.2
+        backgroundColor: 'white'
       }
     }
   },
