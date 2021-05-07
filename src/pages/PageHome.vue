@@ -151,7 +151,7 @@ export default {
       confirm: false,
       qweetToBeDeleted: {},
       deviceType: [],
-      numberOfSkeletons: 20,
+      numberOfSkeletons: 10,
       qweets: [
         // {
         //   id: 1,
@@ -167,9 +167,9 @@ export default {
   },
   mounted () {
     this.loading = true
-    this.firebaseFetchQweets()
-    this.getDeviceTypeName()
-    this.loading = false
+    // this.firebaseFetchQweets()
+    // this.getDeviceTypeName()
+    // this.loading = false
   },
   filters: {
     relativeDate (value) {

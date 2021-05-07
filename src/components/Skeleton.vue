@@ -24,22 +24,22 @@
 
           <div class="row items-center justify-between no-wrap">
             <div class="row items-center">
-              <q-icon name="far fa-comment" color="grey-4" class="q-mr-sm" size="1.2em" />
+              <q-icon name="far fa-comment" color="grey-4" class="q-mr-sm" size="1.3em" />
               <q-skeleton type="text" width="15px" />
             </div>
 
             <div class="row items-center">
-              <q-icon name="fas fa-retweet" color="grey-4" class="q-mr-sm" size="1.2em" />
+              <q-icon name="fas fa-retweet" color="grey-4" class="q-mr-sm" size="1.3em" />
               <q-skeleton type="text" width="15px" />
             </div>
 
             <div class="row items-center">
-              <q-icon name="fas fa-heart" color="grey-4" class="q-mr-sm" size="1.2em" />
+              <q-icon name="fas fa-heart" color="grey-4" class="q-mr-sm" size="1.3em" />
               <q-skeleton type="text" width="15px" />
             </div>
 
             <div class="row items-center">
-              <q-icon name="fas fa-trash" color="grey-4" class="q-mr-sm" size="1.15em" />
+              <q-icon name="fas fa-trash" color="grey-4" class="q-mr-sm" size="1.3em" />
 <!--              <q-skeleton type="text" width="15px" />-->
             </div>
           </div>
