@@ -1,4 +1,4 @@
-# Qwitter (qwitter)
+# Qwitter (qwitter) Firebase + Vuejs
 
 
 
