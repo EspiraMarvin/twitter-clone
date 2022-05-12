@@ -1,4 +1,4 @@
-# Qwitter (qwitter) Firebase + Vuejs
+# Twitter Clone (qwitter) Firebase + Vuejs
 
 
 
